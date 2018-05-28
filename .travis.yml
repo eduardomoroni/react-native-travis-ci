@@ -1,16 +1,25 @@
-os: linux
-language: android
-jdk: oraclejdk8
-android:
-  components:
-    - build-tools-23.0.1
-    - android-23
-before_install:
-  - yes | sdkmanager "platforms;android-23"
-  - yes | sdkmanager "build-tools;23.0.1"
-  - nvm install && nvm use
-  - npm install -g "npm@$(jq -r '.engines.npm' package.json)"
 install:
-  - npm ci
-script:
-  - "./android/gradlew assembleRelease -p android/"
+- nvm install && nvm use
+- npm install -g "npm@$(jq -r '.engines.npm' package.json)"
+- npm ci
+matrix:
+  include:
+  - os: linux
+    language: android
+    jdk: oraclejdk8
+    android:
+      components:
+        - build-tools-23.0.1
+        - android-23
+    before_install:
+      - yes | sdkmanager "platforms;android-23"
+      - yes | sdkmanager "build-tools;23.0.1"
+    script:
+      - "./android/gradlew assembleRelease -p android/"
+  - os: osx
+    osx_image: xcode9.3
+    before_install:
+      - brew install jq
+      - bundle install
+    script:
+      - bundle exec fastlane ios test
