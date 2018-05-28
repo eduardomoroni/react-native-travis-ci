@@ -48,7 +48,9 @@ buck-out/
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/
 
+*/fastlane/README.md
 */fastlane/report.xml
+*/fastlane/test_output/
 */fastlane/Preview.html
 */fastlane/screenshots
 
